@@ -1,4 +1,5 @@
 use crate::util;
+use crate::util::Tap;
 use anyhow::Result;
 
 pub fn run() -> Result<()> {
@@ -30,7 +31,7 @@ pub fn part_1(input: String) -> i32 {
 }
 
 pub fn part_2(input: String) -> i32 {
-    let mut res = input
+    input
         .split("\n\n")
         .map(|t| {
             t.trim()
@@ -39,10 +40,15 @@ pub fn part_2(input: String) -> i32 {
                 .reduce(|acc, el| acc + el)
                 .unwrap()
         })
-        .collect::<Vec<i32>>();
-
-    res.sort();
-    res.iter().rev().take(3).sum()
+        .collect::<Vec<i32>>()
+        .tap(|mut el| {
+            el.sort();
+            el
+        })
+        .iter()
+        .rev()
+        .take(3)
+        .sum()
 }
 
 #[cfg(test)]
@@ -70,5 +76,12 @@ mod test {
         .into();
         let res = part_1(input);
         assert_eq!(res, 24_000);
+    }
+
+    #[test]
+    fn test_correct_answers() {
+        let input = util::read_input(1).expect("input parsing");
+        assert_eq!(part_1(input.clone()), 66719);
+        assert_eq!(part_2(input), 198551);
     }
 }
