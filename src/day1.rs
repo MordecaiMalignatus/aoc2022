@@ -1,4 +1,5 @@
 use crate::util;
+use crate::util::paragraphs;
 use crate::util::Tap;
 use anyhow::Result;
 
@@ -15,24 +16,7 @@ pub fn run() -> Result<()> {
 }
 
 pub fn part_1(input: String) -> i32 {
-    let mut res = input
-        .split("\n\n")
-        .map(|t| {
-            t.trim()
-                .split('\n')
-                .map(|el| el.parse::<i32>().unwrap())
-                .reduce(|acc, el| acc + el)
-                .unwrap()
-        })
-        .collect::<Vec<i32>>();
-
-    res.sort();
-    res[res.len() - 1]
-}
-
-pub fn part_2(input: String) -> i32 {
-    input
-        .split("\n\n")
+    paragraphs(&input)
         .map(|t| {
             t.trim()
                 .split('\n')
@@ -41,10 +25,21 @@ pub fn part_2(input: String) -> i32 {
                 .unwrap()
         })
         .collect::<Vec<i32>>()
-        .tap(|mut el| {
-            el.sort();
-            el
+        .tap_mut(|v| v.sort())
+        .tap_mut(|v| v.reverse())[0]
+}
+
+pub fn part_2(input: String) -> i32 {
+    paragraphs(&input)
+        .map(|t| {
+            t.trim()
+                .split('\n')
+                .map(|el| el.parse::<i32>().unwrap())
+                .reduce(|acc, el| acc + el)
+                .unwrap()
         })
+        .collect::<Vec<i32>>()
+        .tap_mut(|el| el.sort())
         .iter()
         .rev()
         .take(3)
