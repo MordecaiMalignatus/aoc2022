@@ -51,7 +51,7 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_input() {
+    fn test_test_input() {
         let input = "
 1000
 2000

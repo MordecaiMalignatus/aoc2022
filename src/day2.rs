@@ -110,6 +110,8 @@ fn parse_part2_line(line: &str) -> i32 {
 
 #[cfg(test)]
 mod test {
+    use crate::util::read_input;
+
     use super::*;
     const TEST_INPUT: &str = r#"A Y
 B X
@@ -117,7 +119,14 @@ C Z
 "#;
 
     #[test]
-    fn test_part1_test_input() {
+    fn test_test_input() {
         assert_eq!(part_1(TEST_INPUT.to_string()), 15);
+    }
+
+    #[test]
+    fn test_correct_answers() {
+        let real_input = read_input(2).unwrap();
+        assert_eq!(part_1(real_input.clone()), 13809);
+        assert_eq!(part_2(real_input), 12316);
     }
 }
